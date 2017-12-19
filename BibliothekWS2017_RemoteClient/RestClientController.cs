@@ -108,17 +108,33 @@ namespace BibliothekWS2017_RemoteClient
             HMACSHA1 hmac = new HMACSHA1(enc.GetBytes(secretKey));
             hmac.Initialize();
 
-            byte[] buffer = enc.GetBytes(user +":"+password);
-            //return BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();            
+            byte[] buffer = enc.GetBytes(user +":"+password);          
 
-            string hashed = BitConverter.ToString(hmac.ComputeHash(buffer));
+            string hashed = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "");
 
-            _client.SetAuthorizationHeader("hmac", hashed);
+            _client.SetAuthorizationHeader("hmac", user+":"+hashed);
             string jsonObjectArray = _client.Get("authenticateUser").Result;
-            bool loginStatus = JsonConvert.DeserializeObject<Boolean>(jsonObjectArray);
-            
-            return loginStatus;
+            if (jsonObjectArray == null)
+            {
+                return false;
+            }
+
+            bool loginSuccess = JsonConvert.DeserializeObject<Boolean>(jsonObjectArray);
+
+            if (loginSuccess)
+            {
+                return true;
+            }
+            else
+            {
+                _client.ClearAuthorizationHeader();
+                return false;
+            }
         }
 
+        public void Logout()
+        {
+            _client.ClearAuthorizationHeader();
+        }
     }
 }

@@ -130,6 +130,7 @@ namespace BibliothekWS2017_RemoteClient
                             break;
                         case "l":
                             _userLoggedIn = false;
+                            _controller.Logout();
                             break;
                         default:
                             Console.WriteLine("Wrong input!");
@@ -259,9 +260,17 @@ namespace BibliothekWS2017_RemoteClient
             }
 
             bool success = _controller.Login(user, password.ToString());
-
-            _userLoggedIn = true;
-            MenuLoggedIn();
+            if (success)
+            {
+                Console.WriteLine("Logged in successfully.");
+                _userLoggedIn = true;
+                MenuLoggedIn();
+            }
+            else
+            {
+                Console.WriteLine("Access denied!");
+            }
+            
         }
 
         private static void RentCopy()
