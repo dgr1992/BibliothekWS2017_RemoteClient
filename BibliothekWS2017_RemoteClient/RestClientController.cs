@@ -101,37 +101,50 @@ namespace BibliothekWS2017_RemoteClient
             }
         }
 
+        /// <summary>
+        /// Checks if the user with the given password is allowed to access the methods that require a user account
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool Login(string user, string password){
-
+            //Encoding type
+            var encoding = new System.Text.UTF8Encoding();
+            //The secretKey that should not be hard coded
             string secretKey = "testKey";
-            var enc = Encoding.ASCII;
-            HMACSHA1 hmac = new HMACSHA1(enc.GetBytes(secretKey));
-            hmac.Initialize();
+            //Instantiat the HMACSHA1 with the secretKey
+            HMACSHA1 hmac_sha1 = new HMACSHA1(encoding.GetBytes(secretKey));
+            hmac_sha1.Initialize();
+            //Create byte array of the string that should be hashed
+            byte[] result = hmac_sha1.ComputeHash(encoding.GetBytes(user + ":" + password));
+            string hexString = String.Join("", result.Select(a => a.ToString("x2")));
 
-            byte[] buffer = enc.GetBytes(user +":"+password);          
-
-            string hashed = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "");
-
-            _client.SetAuthorizationHeader("hmac", user+":"+hashed);
+            //Set the authorization header
+            _client.SetAuthorizationHeader("hmac", user+":"+ hexString);
+            //Request if user is allowed to enter the other area
             string jsonObjectArray = _client.Get("authenticateUser").Result;
             if (jsonObjectArray == null)
             {
                 return false;
             }
 
+            //Check if user is allowed
             bool loginSuccess = JsonConvert.DeserializeObject<Boolean>(jsonObjectArray);
-
             if (loginSuccess)
             {
                 return true;
             }
             else
-            {
+            {   
+                //Reset the authorization header if the user is not allowed to rent a copy
                 _client.ClearAuthorizationHeader();
                 return false;
             }
         }
 
+        /// <summary>
+        /// Logout a user
+        /// </summary>
         public void Logout()
         {
             _client.ClearAuthorizationHeader();

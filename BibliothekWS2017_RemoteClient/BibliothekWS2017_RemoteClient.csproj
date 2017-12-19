@@ -51,12 +51,7 @@
     <Compile Include="Media\Dvd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteClasses\Address.cs" />
-    <Compile Include="RemoteClasses\Category.cs" />
-    <Compile Include="RemoteClasses\Copy.cs" />
-    <Compile Include="RemoteClasses\Customer.cs" />
     <Compile Include="RemoteClasses\Rental.cs" />
-    <Compile Include="RemoteClasses\UserAccount.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="RestClientController.cs" />
   </ItemGroup>
