@@ -23,8 +23,8 @@ namespace BibliothekWS2017_RemoteClient
         public RestClient(String url, String dataType)
         {
             _url = url;
-            if(url[url.Length - 1] != '\\'){
-                _url +="\\";
+            if(url[url.Length - 1] != '/'){
+                _url +="/";
             }
             
             _client = new HttpClient();
@@ -73,8 +73,8 @@ namespace BibliothekWS2017_RemoteClient
             return result;
         }
 
-        public void SetAuthorizationHeader(String data){
-            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", data);
+        public void SetAuthorizationHeader(String authType, String data){
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, data);
         }
 
         public void ClearAuthorizationHeader(){

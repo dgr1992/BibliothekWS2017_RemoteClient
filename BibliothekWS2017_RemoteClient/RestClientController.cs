@@ -113,7 +113,7 @@ namespace BibliothekWS2017_RemoteClient
 
             string hashed = BitConverter.ToString(hmac.ComputeHash(buffer));
 
-            _client.SetAuthorizationHeader(hashed);
+            _client.SetAuthorizationHeader("hmac", hashed);
             string jsonObjectArray = _client.Get("authenticateUser").Result;
             bool loginStatus = JsonConvert.DeserializeObject<Boolean>(jsonObjectArray);
             
