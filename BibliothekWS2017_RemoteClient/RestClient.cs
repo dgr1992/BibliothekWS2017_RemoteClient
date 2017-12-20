@@ -23,9 +23,6 @@ namespace BibliothekWS2017_RemoteClient
         public RestClient(String url, String dataType)
         {
             _url = url;
-            if(url[url.Length - 1] != '/'){
-                _url +="/";
-            }
             
             _client = new HttpClient();
             _client.BaseAddress = new Uri(url);

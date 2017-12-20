@@ -21,6 +21,9 @@ namespace BibliothekWS2017_RemoteClient
         /// <param name="dataType">Expected data type from the web service. Example: application/json </param>
         public RestClientController(String url, String dataType)
         {
+            if(url[url.Length - 1] != '/'){
+                url +="/";
+            }
             _client = new RestClient(url, dataType);
         }
 
