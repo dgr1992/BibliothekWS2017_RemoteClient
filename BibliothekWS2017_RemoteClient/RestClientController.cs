@@ -24,7 +24,7 @@ namespace BibliothekWS2017_RemoteClient
             if(url[url.Length - 1] != '/'){
                 url +="/";
             }
-            _client = new RestClient(url, dataType);
+            _client = new RestClient(url +"REST/", dataType);
         }
 
         /// <summary>
