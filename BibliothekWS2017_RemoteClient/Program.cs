@@ -225,7 +225,7 @@ namespace BibliothekWS2017_RemoteClient
         private static void Login()
         {
             Console.WriteLine("#####################################");
-            Console.WriteLine("#                Menu               #");
+            Console.WriteLine("#                Login              #");
             Console.WriteLine("#####################################");
 
             Console.Write("User: ");

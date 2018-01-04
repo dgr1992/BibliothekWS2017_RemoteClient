@@ -71,7 +71,7 @@ namespace BibliothekWS2017_RemoteClient
         }
 
         public void SetAuthorizationHeader(String authType, String data){
-            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(authType, data);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authType, data);
         }
 
         public void ClearAuthorizationHeader(){
